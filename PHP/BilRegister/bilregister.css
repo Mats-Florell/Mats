@@ -1,0 +1,30 @@
+
+nav{
+    background-color: #14080E;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: right;
+}
+body{
+    
+    background-color: #c7d5ff;;
+}
+#loggout{
+    padding: 0px;
+    background-color: transparent;
+
+}
+.navButtons{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    color: #c7d5ff;
+    background-color: #799496;
+    margin-bottom: 100px;
+
+}
+content{
+    margin-left: 50svw;
+    display: flex;
+}
