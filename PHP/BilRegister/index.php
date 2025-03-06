@@ -5,16 +5,17 @@
 ?>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login</title>
     <link rel="stylesheet" href="bilregister.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"  />
 </head>
 <body>
     <header>
         <nav>
 
-            <trclass="navButtons"><a href="biler.php" class="navButtons">Biler</a></tr>
-            <tr><a href="kunder.php" class="navButtons">Kunder</a></tr>
+           <tr class="navButtons"><a href="biler.php" class="navButtons">Biler</a></tr>
+            <tr><a href="eiere.php" class="navButtons">Eiere</a></tr>
             <tr><a href="./" class="navButtons">Senere</a></tr>
             <tr><a href="innstilinger.php" class="navButtons">Innstillinger</a></tr>
 
@@ -22,14 +23,31 @@
     </header>
     <content>
     <form method="post">
-        <label for="brukernavn">Brukernavn:</label>
-        <input type="text" id="brukernavn" name="brukernavn" required><br>
-    
-        <label for="passord">Passord:</label>
-        <input type="password" id="passord" name="passord" required><br>
-
-        <button type="submit">Logg inn</button>
-        <a href="logout.php" id="loggout"><button >Logg ut</button></a>
+        <table class="formTable">
+        <tr>
+            <td>
+                <label for="brukernavn">Brukernavn:</label>
+            </td>
+            <td>
+                <input type="text" id="brukernavn" name="brukernavn" required><br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="passord">Passord:</label>
+            </td>
+            <td>
+                <input type="password" id="passord" name="passord" required><br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Logg inn</button>
+            </td>
+            <td>
+                <a href="logout.php" id="loggout"><button >Logg ut</button></a>
+            </td>
+        </tr>
     </form>
 
     
@@ -55,10 +73,10 @@
                 $row = $result->fetch_assoc();
 
                 if($row["brukernavn"] === $innsendtNavn and $innsendtPassord === $row["passord"]){
-                    $_SESSION['innlogging'] = true;
+                    $_SESSION['innlogging'] = 1;
                 }
 
-                if ($_SESSION['innlogging'] == true) {
+                if ($_SESSION['innlogging'] == 1) {
                     header('Location: biler.php');
                    exit;
                } else {
