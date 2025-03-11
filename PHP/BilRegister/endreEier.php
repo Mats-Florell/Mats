@@ -10,13 +10,26 @@
         exit;
     }
 ?>
+<?php
+    $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "bilregister";
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection            
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $eierID = $_POST["eierID"];
+?>
 <head>
-    <meta charset="UTF-8">
 
-    <title>Legg til eier</title>
+    <title>Endre Eier Info</title>
     <link rel="stylesheet" href="bilregister.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"  />
 </head>
+
 
 <body>
     <header>
@@ -29,23 +42,39 @@
 
         </nav>
     </header>
-    <form action="leggTilEier.php" method="POST">
+    <form action="endreEier.php" method="POST">
         <table class="formTable">
         <tr>
             <td>Fornavn:</td>
-            <td><input type="text" name="fornavn" maxLength="16"></td>
+            <td><input type="text" name="fornavn" maxLength="16" value="<?php $sql = "SELECT fornavn FROM eiere where eierID=" .$eierID . " ";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            echo $row["fornavn"];
+            ?>"></td>
         </tr>
         <tr>
             <td>Etternavn:</td>
-            <td><input type="text" name="etternavn" maxLength="20"></td>
+            <td><input type="text" name="etternavn" maxLength="20" value="<?php $sql = "SELECT etternavn FROM eiere where eierID='" .$eierID . "'";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            echo $row["etternavn"];
+            ?>"></td>
         </tr>
         <tr>
             <td>Fødselsdato:</td>
-            <td><input type="date" name="fodselsdato"></td>
+            <td><input type="date" name="fodselsdato" value="<?php $sql = "SELECT fodselsdato FROM eiere where eierID=" .$eierID . "";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            echo $row["fodselsdato"];
+            ?>"></td>
         </tr>
         <tr>
             <td>Kontakt telefon:</td>
-            <td><input type="text" name="telefon" maxLength=8></td>
+            <td><input type="text" name="telefon" maxLength=8 value="<?php $sql = "SELECT telefon FROM eiere where eierID=" .$eierID . " ";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            echo $row["telefon"];
+            ?>"></td>
         </tr>  
         <tr>
             <td>Land Kode (tlf): </td>
@@ -81,6 +110,7 @@
             </td>
         </tr>  
         </table>
+        <input type="Hidden" name="eierID" value=" <?php echo $eierID; ?>"></input>
         <input type="submit"></input>
     </form>
 
@@ -108,18 +138,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     }elseif(empty($_POST["landKode"])){
             echo "error: Må skrive korrekt landskode";
     }else{
+
         $fornavn = $_POST["fornavn"];
         $etternavn = $_POST["etternavn"];
         $fodselsdato = $_POST["fodselsdato"];
         $telefon = $_POST["telefon"];
         $landkode = $_POST["landKode"];
 
-
-
-        $sql = "INSERT INTO eiere (fornavn, etternavn, fodselsdato, telefon, CountryCode) VALUES ('" . $fornavn . "', '" . $etternavn . "', '" . $fodselsdato  . "', '" . $telefon . "', '" . $landkode . "')";
+        $sql = "UPDATE `eiere` SET `fornavn` = '" . $fornavn . "' ,`fodselsdato` = '" . $fodselsdato . "' , `telefon`= '" .  $telefon  . "', `CountryCode`='". $landkode. "' WHERE `eierID` ='" . $eierID . "'; ";
 
         if ($conn->query($sql) === TRUE) {
-            echo "New record created successfully";
+            echo "New record created successfully <script>
+            window.location.href = 'eiere.php';
+            </script>";
         } else {
           echo "Error: " . $sql . "<br>" . $conn->error;
         }

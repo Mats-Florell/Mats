@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legg til dyr</title>
+    <title>Dyre-Liste: Legg til dyr</title>
+    <link rel="stylesheet" href="dyreregister.css">'
 </head>
 <body>
     <nav>
-            <a href="index.php">Dyre-Liste</a>
-            <br>
-            <a href="addDyr.php">Legg til Kjeledyr</a>
-        </nav>
+          <a href="index.php" class="navButtons">Dyre-Liste</a>
+          <a href="fjernDyr.php" class="navButtons">Fjern kjeledyr</a>
+          <a href="addDyr.php" class="navButtons">Legg til Kjeledyr</a>
+    </nav>
+    <content>
     <form action="addDyr.php" method="POST">
-        <table>
+        <table class="formTable">
         <tr>
             <td>Navn</td>
             <td><input type="text" name="dyreNavn"></td>
@@ -32,6 +34,7 @@
         </table>
         <input type="submit"></input>
     </form>
+</content>
 <?php
 $servername = "localhost";
 $username = "root";

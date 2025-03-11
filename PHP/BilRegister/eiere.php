@@ -29,6 +29,7 @@
         </nav>
     </header>
     <content>
+    <form action='endreEier.php' method="POST">
         <?php
             $servername = "localhost";
             $username = "root";
@@ -46,10 +47,10 @@
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
-                echo "<table class='table'><tr><td>navn:</td><td>fødselsdato</td><td>telefon:</td><td>country:</td></tr>";
+                echo "<table class='table'><tr><td>Navn:</td><td>Fødselsdato</td><td>Telefon:</td><td>Country:</td><td>Rediger:</td><td>Slett:</td></tr>";
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    echo "<tr><td>" . $row["fornavn"] . " ". $row["etternavn"] . "</td><td>" . $row["fodselsdato"] ."</td><td>+" . $row["phonecode"]. $row["telefon"] ."</td><td>" . $row["name"] ."</td></tr>";
+                    echo "<tr><td>" . $row["fornavn"] . " ". $row["etternavn"] . "</td><td>" . $row["fodselsdato"] ."</td><td>+" . $row["phonecode"]. $row["telefon"] ."</td><td>" . $row["name"] ."</td><form action='endreEier.php' method='POST'><td><button name='eierID' type='submit' value='" . $row["eierID"] . "'>Rediger</button></td>    </form><td><form action='slettEier.php' method='POST'><button name='eierID' type='submit' value='" . $row["eierID"] . "'>Slett</button></form></td></tr>";
                 }
                 echo "</table><br>";
             } else {
@@ -57,6 +58,7 @@
             }
             $conn->close();
         ?>
+
         <a href="leggTilEier.php"><button >Legg til Eier</button></a>
         <a href="logout.php" id="loggout"><button >Logg ut</button></a>
     </content>
