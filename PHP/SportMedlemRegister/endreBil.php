@@ -21,11 +21,11 @@
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $eierID = $_POST["eierID"];
+        $bilID = $_POST["bilID"];
 ?>
 <head>
 
-    <title>Endre Eier Info</title>
+    <title>Endre Bil Info</title>
     <link rel="stylesheet" href="bilregister.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"  />
 </head>
@@ -33,7 +33,6 @@
 
 <body>
     <header>
-        <?php echo $eierID;?>
         <nav>
 
             <tr class="navButtons"><a href="biler.php" class="navButtons">Biler</a></tr>
@@ -43,45 +42,44 @@
 
         </nav>
     </header>
-    <form action="endreEier.php" method="POST">
-
-        <table class="formTable">
+    <form action="endreBil.php" method="POST">
+    <table class="formTable">
         <tr>
-            <td>Fornavn:</td>
-            <td><input type="text" name="fornavn" maxLength="16" value="<?php $sql = "SELECT fornavn FROM eiere where eierID=" .$eierID . " ";
+            <td>Reg-Nummer:</td>
+            <td><input type="text" name="RegNr" maxLength="7" value="<?php $sql = "SELECT regNr FROM biler where bilID='" . $bilID . "'";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
-            echo $row["fornavn"];
+            echo $row["regNr"];
             ?>"></td>
         </tr>
         <tr>
-            <td>Etternavn:</td>
-            <td><input type="text" name="etternavn" maxLength="20" value="<?php $sql = "SELECT etternavn FROM eiere where eierID='" .$eierID . "'";
+            <td>Merke:</td>
+            <td><input type="text" name="Merke" maxLength="10"value="<?php $sql = "SELECT Merke FROM biler where bilID='" . $bilID . "'";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
-            echo $row["etternavn"];
+            echo $row["Merke"];
             ?>"></td>
         </tr>
         <tr>
-            <td>Fødselsdato:</td>
-            <td><input type="date" name="fodselsdato" value="<?php $sql = "SELECT fodselsdato FROM eiere where eierID=" .$eierID . "";
+            <td>Farge:</td>
+            <td><input type="text" name="Farge"maxLength="12"value="<?php $sql = "SELECT Farge FROM biler where bilID='" . $bilID . "'";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
-            echo $row["fodselsdato"];
+            echo $row["Farge"];
             ?>"></td>
         </tr>
         <tr>
-            <td>Kontakt telefon:</td>
-            <td><input type="text" name="telefon" maxLength=8 value="<?php $sql = "SELECT telefon FROM eiere where eierID=" .$eierID . " ";
+            <td>Bil-Type:</td>
+            <td><input type="text" name="BilType" maxLength="16"value="<?php $sql = "SELECT bilType FROM biler where bilID='" . $bilID . "'";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
-            echo $row["telefon"];
-            ?>"></td>
+            echo $row["bilType"];
+            ?>" ></td>
         </tr>  
         <tr>
-            <td>Land Kode (tlf): </td>
+            <td>Eier: </td>
             <td>
-            <select name='landKode'>
+            <select name="BilEierID">
             <?php
             $servername = "localhost";
             $username = "root";
@@ -94,14 +92,20 @@
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
+            $sql = "SELECT eierID FROM biler where bilID='" . $bilID . "'";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            $BilEierID = $row["eierID"];
 
-            $sql = "SELECT id, name, phonecode FROM countrycodes";
+            $sql = "SELECT eierID, fornavn, etternavn, fodselsdato FROM eiere";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    echo "<option value='" . $row["id"] . "'>" . $row["name"] . ": " . $row["phonecode"] . "</option>";
+
+                    echo "<option value='" . $row["eierID"] . "'>" . $row["fornavn"] . " ". $row["etternavn"]. "</option>";
+
                 }
             } else {
                 echo "0 results";
@@ -112,9 +116,10 @@
             </td>
         </tr>  
         </table>
-        <input type="Hidden" name="eierID" value=" <?php echo $eierID; ?>"></input>
+        <input type="Hidden" name="bilID" value=" <?php echo $bilID; ?>"></input>
         <input type="submit"></input>
     </form>
+
 
 <?php
 $servername = "localhost";
@@ -129,35 +134,33 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-    if(empty($_POST["fornavn"]) or strlen($_POST["fornavn"])>16){
-        echo "error: Må skrive gyldig fornavn";
-    }elseif(empty($_POST["etternavn"])or strlen($_POST["etternavn"])>20){
-        echo "error: Må skrive gyldig etternavn";
-    }elseif(empty($_POST["fodselsdato"]) or $_POST["fodselsdato"]> date('Y-m-d',strtotime("-18 Years")) or $_POST["fodselsdato"] < date('Y-m-d',strtotime("-110 Years"))){
-        echo "error: Må skrive gyldig fodselsdato";
-    }elseif(empty($_POST["telefon"]) or strlen($_POST["telefon"])<8 or strlen($_POST["telefon"])>8 or preg_match('~[0-9]+~',$_POST["telefon"]) != true){
-        echo "error: Må skrive korrekt telefonnummer";
-    }elseif(empty($_POST["landKode"])){
-            echo "error: Må skrive korrekt landskode";
+    if(empty($_POST["RegNr"]) or strlen($_POST["RegNr"])>10){
+        echo "error: Må skrive gyldig RegNr";
+    }elseif(empty($_POST["Merke"])or strlen($_POST["Merke"])>12){
+        echo "error: Må skrive gyldig merke";
+    }elseif(empty($_POST["Farge"]) or strlen($_POST["Farge"])>10){
+        echo "error: Må skrive gyldig gyldig";
+    }elseif(empty($_POST["BilType"]) or strlen($_POST["BilType"])>16){
+        echo "error: Må skrive gyldig biltype";
+    }elseif(empty($_POST["BilEierID"]) or strlen($_POST["BilEierID"])>11){
+        echo "error: eierIDer ugyldig";
     }else{
+        $RegNr = $_POST["RegNr"];
+        $Merke = $_POST["Merke"];
+        $Farge = $_POST["Farge"];
+        $BilType = $_POST["BilType"];
+        $BilEierID = $_POST["BilEierID"];
+        $BilID = $_POST["BilID"];
 
-        $fornavn = $_POST["fornavn"];
-        $etternavn = $_POST["etternavn"];
-        $fodselsdato = $_POST["fodselsdato"];
-        $telefon = $_POST["telefon"];
-        $landkode = $_POST["landKode"];
-
-        $sql = "UPDATE `eiere` SET `fornavn` = '" . $fornavn . "' ,`fodselsdato` = '" . $fodselsdato . "' , `telefon`= '" .  $telefon  . "', `CountryCode`='". $landkode. "' WHERE `eierID` ='" . $eierID . "'; ";
-
+        $sql = "UPDATE biler SET regNr='" . $RegNr . "', Merke='" . $Merke . "', Farge='" . $Farge . "', bilType='" . $BilType . "', eierID='" . $BilEierID . "' WHERE bilID='" . $bilID . "'";
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully <script>
-            window.location.href = 'eiere.php';
+            window.location.href = 'biler.php';
             </script>";
         } else {
           echo "Error: " . $sql . "<br>" . $conn->error;
         }
     }
-
 }
 $conn->close();
 ?>

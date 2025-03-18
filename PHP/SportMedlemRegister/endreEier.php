@@ -33,7 +33,6 @@
 
 <body>
     <header>
-        <?php echo $eierID;?>
         <nav>
 
             <tr class="navButtons"><a href="biler.php" class="navButtons">Biler</a></tr>
