@@ -15,7 +15,7 @@
         <nav>
 
            <tr class="navButtons"><a href="biler.php" class="navButtons">Biler</a></tr>
-            <tr><a href="eiere.php" class="navButtons">Eiere</a></tr>
+            <tr><a href="medlemmer.php" class="navButtons">Medlemmer</a></tr>
             <tr><a href="./" class="navButtons">Senere</a></tr>
             <tr><a href="innstilinger.php" class="navButtons">Innstillinger</a></tr>
 
@@ -53,7 +53,7 @@
     
     <?php
         $server = "localhost";
-        $database = "bilregister";
+        $database = "sport";
         $dbUser = "root";
         $dbPassword = "";
 
@@ -68,7 +68,7 @@
                 $innsendtNavn = $_POST['brukernavn'];
                 $innsendtPassord = $_POST['passord'];
 
-                $sql = "SELECT brukernavn, passord FROM brukere";
+                $sql = "SELECT brukernavn, passord FROM bruker";
                 $result = $conn->query($sql);
                 $row = $result->fetch_assoc();
 
@@ -77,7 +77,7 @@
                 }
 
                 if ($_SESSION['innlogging'] == 1) {
-                    header('Location: biler.php');
+                    header('Location: medlemmer.php');
                    exit;
                } else {
                     echo "<p>Feil brukernavn eller passord!</p>";

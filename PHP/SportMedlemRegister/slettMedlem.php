@@ -14,21 +14,21 @@
     $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "bilregister";
+        $dbname = "sport";
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
         // Check connection            
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $bilID = $_POST["bilID"];
+        $m_nr = $_POST["m_nr"];
 ?>
 
 <?php
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "bilregister";
+$dbname = "sport";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -40,11 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
 
-        $sql = "DELETE FROM `biler` WHERE`bilID` ='" . $bilID . "'; ";
+        $sql = "DELETE FROM `medlem` WHERE m_nr ='" . $m_nr . "' ";
 
         if ($conn->query($sql) === TRUE) {
-            echo "New record created successfully "
-
+            echo "New record created successfully <script>
+            window.location.href = 'medlemmer.php';
+            </script>";
         } else {
           echo "Error: " . $sql . "<br>" . $conn->error;
         }

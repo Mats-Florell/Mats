@@ -13,28 +13,25 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Biler</title>
+    <title>Medlemmer</title>
     <link rel="stylesheet" href="bilregister.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"  />
 </head>
 <body>
     <header>
         <nav>
-
-            <tr class="navButtons"><a href="biler.php" class="navButtons">Biler</a></tr>
-            <tr><a href="eiere.php" class="navButtons">Eiere</a></tr>
+            <tr><a href="medlemmer.php" class="navButtons">Medlemmer</a></tr>
             <tr><a href="./" class="navButtons">Senere</a></tr>
             <tr><a href="innstilinger.php" class="navButtons">Innstillinger</a></tr>
 
         </nav>
     </header>
     <content>
-    <form action='leggTilEier.php' method="POST">
         <?php
             $servername = "localhost";
             $username = "root";
             $password = "";
-            $dbname = "bilregister";
+            $dbname = "sport";
 
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
@@ -43,14 +40,21 @@
                 die("Connection failed: " . $conn->connect_error);
             }
 
-            $sql = "SELECT eierID, fornavn, etternavn, fodselsdato, telefon, eiere.CountryCode, countrycodes.phonecode, countrycodes.name FROM eiere LEFT JOIN countrycodes ON eiere.CountryCode = countrycodes.id";
+            $sql = "SELECT * FROM medlem LEFT JOIN norske_postnummer ON medlem.postNr = norske_postnummer.postnummer";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
-                echo "<table class='table'><tr><td>Navn:</td><td>Fødselsdato</td><td>Telefon:</td><td>Country:</td><td>Rediger:</td><td>Slett:</td></tr>";
+                echo "<table class='table'><tr><td>Navn:</td><td>Fødselsdato</td><td>Telefon:</td><td>Post Nummer:</td><td>Post Sted:</td><td>Betalt kontingent:</td><td>Rediger:</td><td>Slett:</td></tr>";
+
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    echo "<tr><td>" . $row["fornavn"] . " ". $row["etternavn"] . "</td><td>" . $row["fodselsdato"] ."</td><td>+" . $row["phonecode"]. $row["telefon"] ."</td><td>" . $row["name"] ."</td><form action='endreEier.php' method='POST'><td><button name='eierID' type='submit' value='" . $row["eierID"] . "'>Rediger</button></td>    </form><td><form action='slettEier.php' method='POST'><button name='eierID' type='submit' value='" . $row["eierID"] . "'>Slett</button></form></td></tr>";
+                    if($row["betalt"]==1){
+                        $betalt ="Ja";
+                    }
+                    if($row["betalt"]==0){
+                        $betalt ="Nei";
+                    }
+                    echo "<tr><td>" . $row["fornavn"] . " ". $row["etternavn"] . "</td><td>" . $row["fodt"] ."</td><td>" . $row["telefon"] ."</td><td>" . $row["postnr"] ."</td><td>" . $row["poststed"] ."</td><td>" . $betalt ."</td><form action='endreMedlem.php' method='POST'><td><button name='m_nr' type='submit' value='" . $row["m_nr"] . "'>Rediger</button></td></form><td><form action='slettMedlem.php' method='POST'><button name='m_nr' type='submit' value='" . $row["m_nr"] . "'>Slett</button></form></td></tr>";
                 }
                 echo "</table><br>";
             } else {
@@ -58,7 +62,7 @@
             }
             $conn->close();
         ?>
-        <a href="leggTilEier.php"><button >Legg til Eier</button></a>
+        <a href="leggTilMedlem.php"><button >Legg til medlem</button></a>
         <a href="logout.php" id="loggout"><button >Logg ut</button></a>
 
     </content>

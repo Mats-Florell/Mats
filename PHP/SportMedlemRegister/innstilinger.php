@@ -22,7 +22,7 @@
         <nav>
 
            <tr class="navButtons"><a href="biler.php" class="navButtons">Biler</a></tr>
-            <tr><a href="eiere.php" class="navButtons">Eiere</a></tr>
+            <tr><a href="medlemmer.php" class="navButtons">Medlemmer</a></tr>
             <tr><a href="./" class="navButtons">Senere</a></tr>
             <tr><a href="innstilinger.php" class="navButtons">Innstillinger</a></tr>
 
