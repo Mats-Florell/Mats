@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Endre Person Info</title>
+    <link rel="stylesheet" href="bilregister.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"  />
+</head>
+
+
+<body id="Page">
+    <header>
+        <nav>
+
+            <tr class="navButtons"><a href="index.html" class="navButtons">Tabell</a></tr>
+
+
+        </nav>
+    </header>
+
+        <form>
+            <table class="formTable" id="formTable">
+                <tr>
+                    <th>
+                        <p>Fornavn:</p>
+                    </th>
+                    <th>
+                        <p>Etternavn:</p>
+                    </th>
+                    <th>
+                        <p>Alder:</p>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="fornavn">
+                    </td>
+                    <td>
+                        <input type="text" id="etternavn">
+                    </td>
+                    <td>
+                        <input type="number" min="0" max="120" id="alder">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" onclick="addPerson()" value="Legg til Person">
+                    </td>
+                    <td>
+                        <input type="button" onclick="addPeople()" value="Legg til flere Personer">
+                    </td>
+                    <td>
+                        <label for="MengdeFolk">Hvor mange kopier:</label>
+                    </td>
+                    <td>
+                        <input type="number" id="MengdeFolk">
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+
+</body>
+<script src="addPerson.js"></script>
+</html>

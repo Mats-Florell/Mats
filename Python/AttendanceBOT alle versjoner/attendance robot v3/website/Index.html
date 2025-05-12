@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Registered Today</title>
+    <script src="Attendancescript.js"></script>
+</head>
+<body>
+    
+</body>
+    <h1>Welcome to GFG</h1> 
+    <h2>How to upload files using HTML to website?</h2> 
+    <input type="file" id="inputfile" >
+    <script>
+        document.getElementById('inputfile') 
+            .addEventListener('change', function() { 
+              
+            var fr=new FileReader(); 
+            fr.onload=function(){ 
+                document.getElementById('output') 
+                        .innerHTML=fr.result; 
+            } 
+              
+            fr.readAsText(this.files[0]); 
+        }) 
+    </script>
+    <p id="output"></p>
+</html>

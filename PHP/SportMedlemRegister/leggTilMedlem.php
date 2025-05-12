@@ -72,8 +72,8 @@
             }
             $conn->close();
         ?>
-        </select></td>
-            
+        </select>
+        </td>
         </tr>
 
         <tr>
